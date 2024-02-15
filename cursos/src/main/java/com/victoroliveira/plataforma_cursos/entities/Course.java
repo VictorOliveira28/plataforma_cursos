@@ -1,34 +1,41 @@
 package com.victoroliveira.plataforma_cursos.entities;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_course")
 public class Course {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String name;
 	private String imgUri;
 	private String imgGrayUri;
+	
+	@OneToMany(mappedBy = "course")
+	private List<Offer> offers = new ArrayList<>();
 
-	public Course() {		
+	public Course() {
 	}
 
-	public Course(Long id, String name, String imgUri, String imgGrayUri) {
-		
+	public Course(Long id, String name, String imgUri, String imgGrayUri, List<Offer> offers) {
+
 		this.id = id;
 		this.name = name;
 		this.imgUri = imgUri;
 		this.imgGrayUri = imgGrayUri;
+		this.offers = offers;
 	}
 
 	public Long getId() {
@@ -63,6 +70,10 @@ public class Course {
 		this.imgGrayUri = imgGrayUri;
 	}
 
+	public List<Offer> getOffers() {
+		return offers;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -79,5 +90,5 @@ public class Course {
 		Course other = (Course) obj;
 		return Objects.equals(id, other.id);
 	}
-	
+
 }
